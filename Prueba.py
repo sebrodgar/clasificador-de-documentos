@@ -3,4 +3,7 @@ i = 10
 
 j = 15
 
-print(str(i+j))
+k = 20
+
+print(str(i+j+k))
+
