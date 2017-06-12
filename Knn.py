@@ -4,9 +4,10 @@ class Knn(object):
     # Para el cálculo de las frecuencias podemos guardarlo en un diccionario y podremos seguir el siguiente estilo:
     # frecuencias = {palabra_clave : [listado con los diferentes valores de las columnas correspondientes]}
 
-    def __init__(self, documents_array, categories):
+    def __init__(self, documents_array, categories, documents_by_category):
         self.documents_array = documents_array
         self.categories = categories
+        self.documents_by_category = documents_by_category
         self.frequencies = {}
 
     # Este método debe calcular el número de apariciones que tiene una palabra por cada documento. Cada palabra tiene

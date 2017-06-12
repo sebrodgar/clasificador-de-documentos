@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 from os import listdir
 from Document import Document
+from Bayes import Bayes
+
+
 categories = {"Comedia": ["humor", "risa", "risas", "cómico", "cómicos", "cómica", "cómicas"], "Misterio": []}
 documents = []
+documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 
 # Se realiza una comprobación de las palabras para luego poder excluir las palabras que no nos aportan nada para la
 # clasificación
@@ -44,18 +48,36 @@ def get_documents_words():
             for line in infile.readlines():
                 text += " " + line
 
-            doc = Document(file_name.split(".")[0], text)
+            doc = Document(file_name.split(".")[0], text, category_dir)
 
             doc.words = get_words_text(doc.text)
 
             documents.append(doc)
+
+            # Con esta parte lo que estamos haciendo es añadir en un diccionario los documentos por categorias,
+            # con esto nos ahorramos el tener que realizar ese filtrado en los algoritmos.
+            try:
+                lis = documents_by_category[doc.category]
+                lis.append(doc)
+                documents_by_category[doc.category] = lis
+            except:
+                documents_by_category[doc.category] = [doc]
+
             infile.close()
+
 
 print("Comienza el programa de obtención de documentos")
 get_documents_words()
+#get_documents_by_category()
 
-for i in documents:
+'''for i in documents:
     print(i)
+'''
+print(documents_by_category)
+
+bayes = Bayes(documents, categories, documents_by_category)
+
+bayes.start_algorithm()
 
 print("Programa Terminado")
 #print(documents)
