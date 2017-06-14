@@ -71,38 +71,16 @@ def get_documents_words():
 
             infile.close()
 
-#Creamos y descargamos los partidos de la jornada
-print("Comienza el programa de obtención de datos.\n"
-      "Elija opción para la ruta donde guardar los documentos: R (raiz del proyecto) o escriba ruta")
-option = input()
-
-print("Comienza el programa de obtención de documentos")
 get_documents_words()
-#get_documents_by_category()
-
-'''for i in documents:
-    print(i)
-'''
-print(documents_by_category)
-
-#bayes = Bayes(documents, categories, documents_by_category,option)
-if option == "R":
-    bayes = Bayes(documents, categories, documents_by_category, "")
-else:
-    bayes = Bayes(documents, categories, documents_by_category, option)
-
-
-bayes.start_algorithm()
-
 print("Comienza el programa de clasifiación de datos.\n"
       "Elija opción para la ruta donde obtener los documentos: R (raiz del proyecto) o escriba ruta")
 option = input()
 if option == "R":
-    bayesC = ClassificationBayes(documents[0], "/datos/datos_bayes.csv")
+    bayesC = ClassificationBayes(documents[35], "datos/datos_bayes.csv")
 else:
-    bayesC = ClassificationBayes(documents[0], option)
+    bayesC = ClassificationBayes(documents[35], option)
 
-
+bayesC.start()
 
 #bayes.start_algorithm()
 
