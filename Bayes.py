@@ -33,7 +33,7 @@ class Bayes(object):
         for key in self.keywords:   # Se realiza la suma de todas las apariciones de las palabras claves en los documentos
             sum_all += key.appearances
 
-        for keyword in self.keywords:   # Se realiza el calculo de la probabilidad P(t|c)
+        for keyword in self.keywords:   # Se realizra el calculo de la probabilidad P(t|c)
             keyword.ptc = ((keyword.appearances + 1) / ((sum_all-keyword.appearances) + len(self.keywords)))
             keys.append(keyword)
 
@@ -48,11 +48,8 @@ class Bayes(object):
             print(k)
         print(self.pcs)
 
-
     def save_information_csv(self):
         print("p")
-
-
 
 
 class KeyWord(object):
