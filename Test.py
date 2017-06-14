@@ -5,7 +5,12 @@ from Document import Document
 from Bayes import Bayes
 
 
-categories = {"Comedia": ["humor", "risa", "risas", "cómico", "cómicos", "cómica", "cómicas"], "Misterio": []}
+categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar"
+                          , "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
+                          "graciosos", "graciosas", "divertido", "divertida"],
+              "Misterio": ["intriga", "intrigas", "misterio", "misterioso", "misteriosa", "misteriosos", "misteriosas", "asesinato",
+                           "asesinatos", "cadáver", "muerte", "muerto", "muerta", "muere", "malvado", "malvada", "malvados", "malvadas",
+                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones"]}
 documents = []
 documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 
