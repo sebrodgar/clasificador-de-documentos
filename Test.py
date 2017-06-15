@@ -10,8 +10,11 @@ categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", 
                           , "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
                           "graciosos", "graciosas", "divertido", "divertida"],
               "Misterio": ["intriga", "intrigas", "misterio", "misterioso", "misteriosa", "misteriosos", "misteriosas", "asesinato",
-                           "asesinatos", "cadáver", "muerte", "muerto", "muerta", "muere", "malvado", "malvada", "malvados", "malvadas",
-                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones"]}
+                           "asesinatos", "cadáver", "muerte", "muerto", "muerta", "muere", "muerte", "malvado", "malvada", "malvados", "malvadas",
+                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones"],
+              "Infantil": ["niño", "niña", "niños", "niñas", "infantil", "infantiles", "divertido", "divertida", "aventura", "aventuras",
+                           "dibujo", "dibujos", "animado", "animada", "animados", "animadas", "animación", "infancia", "gracioso", "graciosa",
+                           "graciosos", "graciosas"]}
 documents = []
 documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 
