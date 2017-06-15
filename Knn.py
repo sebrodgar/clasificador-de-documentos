@@ -10,10 +10,12 @@ class Knn(object):
         self.documents_by_category = documents_by_category
         self.frequencies = {}
         self.wordsByDocument = {}
+        self.frequenciesInv = {}
+        self.weights = {}
 
-    # Este método debe calcular el número de apariciones que tiene una palabra por cada documento. Cada palabra tiene
+    # Esta función calcula el número de apariciones que tiene una palabra por cada documento. Cada palabra tiene
     # que tener una columna por cada documento que tengamos.
-    def calculate_frequencie(self):
+    def calculate_frequencies(self):
          for doc in self.documents_array: #Se recorren todos los documentos
             for w in doc.words: #Se recorren todas las palabras de un documento
                 if not self.frequencies.has_key(w): #Si esa palabra no está en el diccionario...
@@ -22,7 +24,7 @@ class Knn(object):
                 aux.append(doc.words.count(w)) #Se añade un nuevo elemento a la lista de frecuencias de esa palabra
 
 
-    # Este método debe calcular el número de documentos en el que aparece una palabra
+    # Esta función  calcula el número de documentos en el que aparece una palabra
     # Tendremos un diccionario (palabra --> número de documentos en los que aparece)
     def calculate_documental_frequencie(self):
         auxWords = [] # Esto es una lista auxiliar para comprobar que en un documento no se cuenten palabras repetidas
@@ -35,15 +37,27 @@ class Knn(object):
                 if w not in auxWords: # Si la palabra no ha sido ya contada en este documento...
                     self.wordsByDocument[w] = self.wordsByDocument[w] + 1 # ...se cuenta
 
-    # Este método debe calcular el logaritmo del numero total de documentos entre la frecuencia documental, eso para
+    # Esta función calcula el logaritmo del numero total de documentos entre la frecuencia documental para
     # cada palabra clave
     def calculate_inverse_documental_frequencie(self):
-        print("hola")
+        N = self.documents_array.count()
+        for key in self.wordsByDocument.keys():
+            self.frequenciesInv[key] = math.log10(N/self.wordsByDocument[key])
 
-    # Este método debe calcular el peso de una palabra clave con respecto a cada documento(el peso tiene la representación
+    # Esta función calcula el peso de una palabra clave con respecto a cada documento(el peso tiene la representación
     # en la tabla de W), por lo tanto deberá haber con respecto a cada palabra clave una columna de peso por cada documento
     def calculate_weight(self):
-        print("hola")
+        for freq in self.frequencies.keys():
+            for inv in self.frequenciesInv.keys():
+                if freq == inv:
+                    self.weights[key] = self.frequencies[key] * self.frequenciesInv[keys]
+
+
+    def start_algorithm(self):
+        self.calculate_frequencie()
+        self.calculate_documental_frequencie()
+        self.calculate_inverse_documental_frequencie()
+        self.calculate_weight()
 
 
 
