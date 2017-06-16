@@ -4,6 +4,7 @@ from os import listdir
 from Document import Document
 from Bayes import Bayes
 from ClassificationBayes import ClassificationBayes
+from Bayes import Bayes
 
 
 categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar"
@@ -11,10 +12,10 @@ categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", 
                           "graciosos", "graciosas", "divertido", "divertida"],
               "Misterio": ["intriga", "intrigas", "misterio", "misterioso", "misteriosa", "misteriosos", "misteriosas", "asesinato",
                            "asesinatos", "cadáver", "muerte", "muerto", "muerta", "muere", "muerte", "malvado", "malvada", "malvados", "malvadas",
-                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones"],
+                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones","suspense"],
               "Infantil": ["niño", "niña", "niños", "niñas", "infantil", "infantiles", "divertido", "divertida", "aventura", "aventuras",
                            "dibujo", "dibujos", "animado", "animada", "animados", "animadas", "animación", "infancia", "gracioso", "graciosa",
-                           "graciosos", "graciosas"]}
+                           "graciosos", "graciosas","héroe"]}
 documents = []
 documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 
@@ -86,18 +87,18 @@ get_documents_words()
 '''for i in documents:
     print(i)
 '''
-print(documents_by_category)
+#print(documents_by_category)
 
 #bayes = Bayes(documents, categories, documents_by_category,option)
-if option == "R":
+if option == "R" or option == "r":
     bayes = Bayes(documents, categories, documents_by_category, "")
 else:
     bayes = Bayes(documents, categories, documents_by_category, option)
 
 
 bayes.start_algorithm()
-
-print("Comienza el programa de clasifiación de datos.\n"
+print("Programa Terminado")
+'''print("Comienza el programa de clasifiación de datos.\n"
       "Elija opción para la ruta donde obtener los documentos: R (raiz del proyecto) o escriba ruta")
 option = input()
 if option == "R":
@@ -110,4 +111,4 @@ else:
 #bayes.start_algorithm()
 
 print("Programa Terminado")
-#print(documents)
+#print(documents)'''

@@ -42,43 +42,44 @@ def get_words_text(text):
 # Se obtiene el listado de documentos con los textos obtenidos y los arrays de palabras sacados del texto para su
 # comprobación mediante los algoritmos de Knn y Bayes
 def get_documents_words():
-    for category_dir in listdir("Series"):
-        for file_name in listdir("Series/" + category_dir):
+    for file_name in listdir("SeriesClasificacion"):
+
+        infile = open("SeriesClasificacion/" + file_name, 'r')
+
+        text = ""
+        # Realizamos el for porque el metodo readLines nos da una lista por cada párrafo y necesitamos juntarlo
+        for line in infile.readlines():
+            text += " " + line
+
+        doc = Document(file_name.split(".")[0], text, file_name)
+
+        doc.words = get_words_text(doc.text)
+
+        documents.append(doc)
+
+        # Con esta parte lo que estamos haciendo es añadir en un diccionario los documentos por categorias,
+        # con esto nos ahorramos el tener que realizar ese filtrado en los algoritmos.
+        try:
+            lis = documents_by_category[doc.category]
+            lis.append(doc)
+            documents_by_category[doc.category] = lis
+        except:
+            documents_by_category[doc.category] = [doc]
+
+        infile.close()
 
             # En primer lugar debemos de abrir el fichero que vamos a leer.
             # Usa 'rb' en vez de 'r' si se trata de un fichero binario.
-            infile = open("Series/" + category_dir + "/" + file_name, 'r')
 
-            text = ""
-            # Realizamos el for porque el metodo readLines nos da una lista por cada párrafo y necesitamos juntarlo
-            for line in infile.readlines():
-                text += " " + line
-
-            doc = Document(file_name.split(".")[0], text, category_dir)
-
-            doc.words = get_words_text(doc.text)
-
-            documents.append(doc)
-
-            # Con esta parte lo que estamos haciendo es añadir en un diccionario los documentos por categorias,
-            # con esto nos ahorramos el tener que realizar ese filtrado en los algoritmos.
-            try:
-                lis = documents_by_category[doc.category]
-                lis.append(doc)
-                documents_by_category[doc.category] = lis
-            except:
-                documents_by_category[doc.category] = [doc]
-
-            infile.close()
 
 get_documents_words()
 print("Comienza el programa de clasifiación de datos.\n"
       "Elija opción para la ruta donde obtener los documentos: R (raiz del proyecto) o escriba ruta")
 option = input()
 if option == "R":
-    bayesC = ClassificationBayes(documents[35], "datos/datos_bayes.csv")
+    bayesC = ClassificationBayes(documents[1], "datos/datos_bayes.csv")
 else:
-    bayesC = ClassificationBayes(documents[35], option)
+    bayesC = ClassificationBayes(documents[1], option)
 
 bayesC.start()
 

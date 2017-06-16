@@ -19,10 +19,8 @@ class ClassificationBayes(object):
             for reg in input:
                 datas = reg[0].split(';')
                 if indice > 0:
-                    self.keywords.append(KeyWord(datas[0], datas[1], float(datas[2]), float(datas[3]), int(datas[4])))
+                    self.keywords.append(KeyWord(datas[0], datas[1], float(datas[2]), int(datas[4]), float(datas[3])))
                 indice += 1
-
-        print(len(self.keywords))
 
     def select_words_in_docuement(self):
         for w in self.keywords:
@@ -48,11 +46,15 @@ class ClassificationBayes(object):
             c_value = 1
             pc = -1
             for w in categories_keywords[c]:
+                #print(w.ptc)
                 c_value *= math.pow(w.ptc, w.appearances)
-                print(w.pc)
+                #print(math.pow(w.ptc, w.appearances))
+                #print(w.ptc)
+                #print(w.appearances)
                 pc = w.pc
 
             c_value *= pc
+            print(c_value)
             if c_value > category_value:
                 category = c
                 category_value = c_value

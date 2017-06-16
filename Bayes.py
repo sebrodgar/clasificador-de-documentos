@@ -6,15 +6,17 @@ import os
 class Bayes(object):
 
     def __init__(self, documents_array, categories, documents_by_category, option):
-        self.documents_array = documents_array
-        self.categories = categories
-        self.documents_by_category = documents_by_category
-        self.source_csv = option
-        self.pcs = {}
-        self.total_appearances = 0
-        self.categories_keys = []
-        self.number_of_keywords = 0
-        self.keywords_csv = []
+        self.documents_array = documents_array  # Array con todos los documentos que se tengan almacenados
+        self.categories = categories            # Diccionario con las categorias y sus palabras claves
+        self.documents_by_category = documents_by_category  # Diccionario con los documentos repartidos por categorias
+        self.source_csv = option    # Variable que indica la ruta de guardado del archivo csv
+        self.pcs = {}               # Diccionario con todos las probabilidades de las categorias
+        self.keywords = []          # Array con todas las palabras claves del sistema
+        # Array del objeto KeyWord con las palabras claves guardadas y sus parámetros asociados
+        self.keywords_calculated_appearances = []
+        self.keywords_category = {} # Diccionario con los objetos KeyWord clasificados por categorias
+
+
 
     # Calculamos proporción de los documentos de todas las categorias con respecto al total de documentos de los que
     # disponemos
@@ -22,76 +24,67 @@ class Bayes(object):
         for c in self.documents_by_category:
             self.pcs[c] = len(self.documents_by_category[c])/len(self.documents_array)
 
+    # Se calcula las apariciones de una palabra y categoria dada entre todos los documentos de esa categoria
+    def calculate_appearances_doc_in_category(self, category, word):
+        appearances = 0
+        for doc in self.documents_array:
+            if doc.category == category:
+                appearances += doc.words.count(word)
+        return appearances
 
-    # Se calcula las apariciones de las palabras entre todos los documentos de cada categoria
+
+    # Se obtienen las palabras claves de todas las categorias para almacenarlas en un listado
+    def get_keywords_category(self):
+        for c in self.categories:
+            self.keywords += self.categories[c]
+
+    # Calcula las veces que aparece una palabra clave en los documentos de las diferentes categorias y lo guarda en la
+    # variable keywords_category(se guarda para tener dividido las palabras que pertenece a cada categoria, esto nos
+    # ayuda en el calculo del ptc) y en la variable keywords_calculated_appearances (se guarda para luego recorrerla y
+    # añadirle los ptc, además que ayuda a seguir el formato para guardarlo en el csv)
     def calculate_appearances(self):
-        for c in self.categories: # Se recorren el diccionario de categorias
-            category = Category(c)
-            for word in self.categories[c]: # Se accede al listado de palabras claves de cada catogoría para calcular el numero de apariciones de las palabras.
-                appearances = 0
-                for doc in self.documents_by_category[c]: # Se recorren todos los documentos de la categoria en busca de las palabras claves.
-                    appearances += doc.words.count(word)
+        for k in self.keywords:
+            for c in self.categories:
+                appearance = self.calculate_appearances_doc_in_category(c, k)
+                keyword = KeyWord(c, k, self.pcs[c], appearance)
+                self.keywords_calculated_appearances.append(keyword)
+                if c in self.keywords_category:
+                    self.keywords_category[c].append(keyword)
+                else:
+                    self.keywords_category[c] = [keyword]
 
-                w = KeyWord(c, word, self.pcs[c], appearances)   # Se añade la palabra clave al listado de palabras claves para luego realizar los calculos de probabilidades.
-                category.keywords.append(w)
-
-                self.number_of_keywords += 1
-                self.total_appearances += appearances
-                self.keywords_csv.append(w)
-
-            category.pc = self.pcs[c]
-            self.categories_keys.append(category)
-
-
+    # Se encarga de calcular la probabilidad de una palabra condicionada a una categoria incluyendole el suavizado de
+    # Laplace para que no nos de probabilidades que sean 0
     def calculate_ptc(self):
-        for keyword in self.keywords_csv:
-            keyword.ptc = ((keyword.appearances + 1) / ((self.total_appearances - keyword.appearances)
-                                                        + self.number_of_keywords))
-        for cat in self.categories_keys:
-            for keyword in cat.keywords:
-                keyword.ptc = ((keyword.appearances + 1) / ((self.total_appearances - keyword.appearances)
-                                                            + self.number_of_keywords))
+        numero_total_palabras = len(self.keywords)
+        for key in self.keywords_calculated_appearances:
+            appearances_cat = 0
+            for key_category in self.keywords_category[key.category]:# Recorremos las palabras claves de una categoria
+                # Añadimos en la variable appearances_cat todas las apariciones de las palabras de una categoria
+                appearances_cat += key_category.appearances
+            # Se aplica la formula de la probabilidad condicionada
+            key.ptc = (key.appearances + 1) / (appearances_cat + numero_total_palabras)
 
+
+    # Con este método iniciamos el algoritmo para que realice todos los cálculos y genere el documento csv donde se
+    # se le haya indicado
     def start_algorithm(self):
+        self.get_keywords_category()
         self.calculate_pc()
         self.calculate_appearances()
         self.calculate_ptc()
 
         self.save_information_csv()
-        #for c in self.categories_keys:
-        #    print(c)
 
+    # Genera el archivo CSV a partir del listado de keywords con sus calculos realizados
     def save_information_csv(self):
         filename = self.source_csv + './datos/datos_bayes.csv'
-        if not os.path.exists(os.path.dirname(filename)):
+        if not os.path.exists(os.path.dirname(filename)): # Comprobamos que el directorio existe, sino pues lo creamos
             os.makedirs(os.path.dirname(filename))
         archivo = open(filename, 'w')
-        # archivo.write('Partido;CPPG(Local);CPPG(Visitante);CPP vs(Local);CPP vs(Visitante);CPPHome(Local);CPPAway(Local);CPPHome(Visitante);CPPAway(Visitante);Estimacion' + '\n')
+
+        # Empezamos escribiendo en el fichero la primera linea que será la de los titulos y luego se va recorriendo
+        # y guardando los objetos KeyWords tal y como indica su metodo "str".
         archivo.write('Categoria;Palabra;Pc;Ptc;Apariciones' + '\n')
-        for w in self.keywords_csv:
+        for w in self.keywords_calculated_appearances:
             archivo.write(str(w))
-
-
-class Category(object):
-
-    def __init__(self, name):
-        self.name = name
-        self.pc = -1
-        self.keywords = [] # Listado de objetos Keyword
-
-
-    def __str__(self):
-        word = ""
-        for k in self.keywords:
-            word += str(k)
-        #res = self.name + ";" + str(self.pc) + ";" + str(self.keywords) + "\n"
-        res = self.name + ";" + str(self.pc) + ";" + word + "\n"
-
-        return res
-
-    def __eq__(self, other):
-        res = False
-        if self.name == other.name:
-            res = True
-
-        return res
