@@ -1,4 +1,4 @@
-import csv, operator
+import csv
 import math
 from KeyWord import KeyWord
 
@@ -12,7 +12,7 @@ class ClassificationBayes(object):
 
 
     def get_data_csv(self):
-        print(self.source_csv)
+        #print(self.source_csv)
         with open(self.source_csv) as csvdata:
             input = csv.reader(csvdata)
             indice = 0
@@ -54,12 +54,13 @@ class ClassificationBayes(object):
                 pc = w.pc
 
             c_value *= pc
-            print(c_value)
+            #print(c_value)
             if c_value > category_value:
                 category = c
                 category_value = c_value
 
-        print("La categoria del documento " + self.document.name + " es: " + category + "/" + str(category_value))
+        print("La categoria del documento " + self.document.name.upper() + " es: " + category.upper() + " con una probabilidad de: "
+              + str(category_value))
 
 
     def start(self):
