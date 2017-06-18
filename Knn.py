@@ -1,5 +1,6 @@
 import math
 from KeywordKnn import KeywordKnn
+import os
 
 class Knn(object):
 
@@ -64,12 +65,32 @@ class Knn(object):
                 self.weightsByDocument[kw.serie] = []
             if kw.serie is serieAux:
                 aux = self.weightsByDocument[kw.serie].append(kw.weight)
+            keysAux.remove(kw)
 
     # Esta función calcula la proximidad entre dos vectores
     def proximidad(self, w1, w2):
-        result = 0
+        numerador, result = 0
         for i in range(len(w1)):
-            result = (w1[i]*w2[i]) / (math.sqrt(w1[i]*w1[i]) * math.sqrt(w2[i]*w2[i]))
+            numerador += w1[i]*w2[i]
+        for i in range(len(w1)):
+            denominador1 = math.sqrt(w1[i]*w1[i])
+        for i in range(len(w2)):
+            denominador2 = math.sqrt(w2[i]*w2[i])
+        result = (numerador) / (denominador1 * denominador2)
+        return result
+
+    # Genera el archivo CSV de las series con sus pesos
+    def save_information_csv(self):
+        filename = self.source_csv + './datos/datos_knn.csv'
+        if not os.path.exists(os.path.dirname(filename)):  # Comprobamos que el directorio existe, sino pues lo creamos
+            os.makedirs(os.path.dirname(filename))
+        archivo = open(filename, 'w')
+
+        # Empezamos escribiendo en el fichero la primera linea que será la de los titulos y luego se va recorriendo
+        # y guardando los objetos KeyWordsKnn tal y como indica su metodo "str".
+        archivo.write('Peso' + '\n')
+        for w in self.weightsByDocument:
+            archivo.write(str(w))
 
 
     def start_algorithm(self):
