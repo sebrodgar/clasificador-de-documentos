@@ -7,15 +7,22 @@ from ClassificationBayes import ClassificationBayes
 from Bayes import Bayes
 
 
-categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar"
-                          , "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
+categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar", "peculiares",
+                          "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
                           "graciosos", "graciosas", "divertido", "divertida"],
               "Misterio": ["intriga", "intrigas", "misterio", "misterioso", "misteriosa", "misteriosos", "misteriosas", "asesinato",
-                           "asesinatos", "cadáver", "muerte", "muerto", "muerta", "muere", "muerte", "malvado", "malvada", "malvados", "malvadas",
-                           "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones","suspense"],
+                           "asesinatos", "asesino", "cadáver", "muerte", "muertes", "muerto", "muerta", "muere", "matar", "malvado", "malvada", "malvados",
+                           "malvadas", "desaparición", "crimen", "crímenes", "caso", "casos", "detective", "sospechoso", "investigación", "investigaciones","suspense"],
               "Infantil": ["niño", "niña", "niños", "niñas", "infantil", "infantiles", "divertido", "divertida", "aventura", "aventuras",
                            "dibujo", "dibujos", "animado", "animada", "animados", "animadas", "animación", "infancia", "gracioso", "graciosa",
-                           "graciosos", "graciosas","héroe"]}
+                           "graciosos", "graciosas","héroe"],
+              "Romántica": ["amor", "amoroso", "amorosa", "amorosos", "amorosas", "desamor", "beso", "besos", "besar", "boda", "enamorado",
+                            "enamorada", "enamorados", "enamoradas", "romántico", "romántica", "romance", "relación", "pareja", "novio",
+                            "novia", "gay", "apasionante", "pasión"],
+              "Ciencia Ficción": ["ciencia", "ficción", "ficciones", "fantasía", "fantástico", "fantástica", "fantásticos", "fantásticos",
+                                  "increíble", "increíbles", "fenómeno", "fenómenos", "poder", "poderes", "sobrenatural", "sobrenaturales",
+                                  "extraño", "extraña", "extraños", "extrañas", "irreal", "irreales", "extraterrestre", "extraterrestres",
+                                  "sorprendente", "sorprendentes", "ciencia", "científico", "científica", "científicos", "científicas"]}
 documents = []
 documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 
