@@ -1,15 +1,18 @@
 import math
 from KeywordKnn import KeywordKnn
+from DocumentoKnn import DocumentoKnn
 import os
 
 class Knn(object):
 
-    def __init__(self, documents_array, categories, documents_by_category):
+    def __init__(self, documents_array, categories, documents_by_category, option):
         self.documents_array = documents_array
         self.categories = categories
         self.documents_by_category = documents_by_category
+        self.source_csv = option  # Variable que indica la ruta de guardado del archivo csv
         self.keywords = []  # Array con todas las palabras claves del sistema
         self.keywordsKnn = [] # Lista de keywordsKnn
+        self.documentsKnn = [] # Lista de DocumentosKnn
         self.wordsByDocument = {} # Diccionario para el número de documentos en los que aparece una palabra
         self.frequenciesInv = {} # Diccionario para las frecuencias inversas
         self.weightsByDocument = {}
@@ -25,7 +28,7 @@ class Knn(object):
     def calculate_frequencies(self):
          for doc in self.documents_array: # Se recorren todos los documentos
             for w in self.keywords: # Se recorren todas las palabras clave
-                keywordKnn = KeywordKnn(w, doc.name, doc.words.count(w), 0) # Creamos un keywordKnn y le añadimos su frecuencia
+                keywordKnn = KeywordKnn(w, doc.name, doc.category, doc.words.count(w), 0) # Creamos un keywordKnn y le añadimos su frecuencia
                 self.keywordsKnn.append(keywordKnn) # Lo añadimos a una lista de keywordsKnn
 
     # Esta función  calcula el número de documentos en el que aparece una palabra
@@ -57,15 +60,14 @@ class Knn(object):
 
     # Esta función calcula los pesos de cada documento
     def calculateWeightByDocument(self):
-        serieAux = ""
-        keysAux = self.keywordsKnn
-        for kw in self.keywordsKnn:
-            serieAux = kw.serie
-            if kw.serie not in self.weightsByDocument:
-                self.weightsByDocument[kw.serie] = []
-            if kw.serie is serieAux:
-                aux = self.weightsByDocument[kw.serie].append(kw.weight)
-            keysAux.remove(kw)
+        diccionarioAux = {} # Creamos un diccionario (Serie:DocumentoKnn)
+        for kw in self.keywordsKnn: # Para cada keywordKnn
+            if kw.serie not in diccionarioAux: # Si no está en el diccionario...
+                documentoKnn = DocumentoKnn(kw.serie, kw.category, [])
+                diccionarioAux[kw.serie] = documentoKnn # ...la añadimos
+            diccionarioAux[kw.serie].weights.append(kw.weight) # Y metemos el peso de dicha palabra para dicha serie
+        for d in diccionarioAux.keys():
+            self.documentsKnn.append(diccionarioAux[d]) # Guardamos cada DocumentoKnn en documentsKnn
 
     # Esta función calcula la proximidad entre dos vectores
     def proximidad(self, w1, w2):
@@ -79,20 +81,6 @@ class Knn(object):
         result = (numerador) / (denominador1 * denominador2)
         return result
 
-    # Genera el archivo CSV de las series con sus pesos
-    def save_information_csv(self):
-        filename = self.source_csv + './datos/datos_knn.csv'
-        if not os.path.exists(os.path.dirname(filename)):  # Comprobamos que el directorio existe, sino pues lo creamos
-            os.makedirs(os.path.dirname(filename))
-        archivo = open(filename, 'w')
-
-        # Empezamos escribiendo en el fichero la primera linea que será la de los titulos y luego se va recorriendo
-        # y guardando los objetos KeyWordsKnn tal y como indica su metodo "str".
-        archivo.write('Peso' + '\n')
-        for w in self.weightsByDocument:
-            archivo.write(str(w))
-
-
     def start_algorithm(self):
         self.get_keywords_category()
         self.calculate_frequencies()
@@ -100,4 +88,17 @@ class Knn(object):
         self.calculate_inverse_documental_frequencie()
         self.calculate_weight()
         self.calculateWeightByDocument()
-        print(self.weightsByDocument)
+        self.save_information_csv()
+
+    # Genera el archivo CSV de las series con sus pesos
+    def save_information_csv(self):
+        filename = self.source_csv + './datos/datos_knn.csv'
+        if not os.path.exists(os.path.dirname(filename)):  # Comprobamos que el directorio existe, si no, lo creamos
+            os.makedirs(os.path.dirname(filename))
+        archivo = open(filename, 'w')
+
+        # Empezamos escribiendo en el fichero la primera linea que será la de los titulos y luego se va recorriendo
+        # y guardando los objetos KeyWordsKnn tal y como indica su metodo "str".
+        archivo.write('Serie;Categoría;Pesos' + '\n')
+        for d in self.documentsKnn:
+            archivo.write(str(d))

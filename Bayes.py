@@ -79,7 +79,7 @@ class Bayes(object):
     # Genera el archivo CSV a partir del listado de keywords con sus calculos realizados
     def save_information_csv(self):
         filename = self.source_csv + './datos/datos_bayes.csv'
-        if not os.path.exists(os.path.dirname(filename)): # Comprobamos que el directorio existe, sino pues lo creamos
+        if not os.path.exists(os.path.dirname(filename)): # Comprobamos que el directorio existe, si no, lo creamos
             os.makedirs(os.path.dirname(filename))
         archivo = open(filename, 'w')
 
