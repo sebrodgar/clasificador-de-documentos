@@ -5,6 +5,7 @@ from os import listdir
 from Document import Document
 from Bayes import Bayes
 from ClassificationBayes import ClassificationBayes
+from ClasificationKnn import  ClasificationKnn
 from Bayes import Bayes
 import AuxiliaryMethods as AuxiliaryMethod
 

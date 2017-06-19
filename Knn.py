@@ -38,16 +38,16 @@ class Knn(object):
             for w in self.keywords: # Se recorren todas las palabras clave
                 if w not in self.wordsByDocument: # Si esa palabra no está en el diccionario...
                     self.wordsByDocument[w] = 0 # ...se añade y se le asigna como valor el cero
-                self.wordsByDocument[w] = self.wordsByDocument[w] + doc.words.count(w) # Se le suma el número de veces que aparece en el documento
-
+                if w in doc.words:
+                    self.wordsByDocument[w] = self.wordsByDocument[w] + 1 # Se le suma uno
 
     # Esta función calcula el logaritmo del número total de documentos entre la frecuencia documental para
     # cada palabra clave
     def calculate_inverse_documental_frequencie(self):
         N = len(self.documents_array) # Número de documentos que hay
         for key in self.wordsByDocument.keys(): # Para cada número de documentos en los que aparece una palabra
-            if self.wordsByDocument[key] == 0:
-                self.frequenciesInv[key] = 0 # Si es cero, añadimos un cero al diccionario de frecuencias inverssas
+            if self.wordsByDocument[key] is 0:
+                self.frequenciesInv[key] = 0.0 # Si es cero, añadimos un cero al diccionario de frecuencias inverssas
             else: # Si no, hacemos el cálculo de la misma
                 self.frequenciesInv[key] = math.log10(N/self.wordsByDocument[key])
 
@@ -65,7 +65,10 @@ class Knn(object):
             if kw.serie not in diccionarioAux: # Si no está en el diccionario...
                 documentoKnn = DocumentoKnn(kw.serie, kw.category, [])
                 diccionarioAux[kw.serie] = documentoKnn # ...la añadimos
-            diccionarioAux[kw.serie].weights.append(kw.weight) # Y metemos el peso de dicha palabra para dicha serie
+            if kw.weight is 0:
+                diccionarioAux[kw.serie].weights.append(0.0)
+            else:
+                diccionarioAux[kw.serie].weights.append(kw.weight) # Y metemos el peso de dicha palabra para dicha serie
         for d in diccionarioAux.keys():
             self.documentsKnn.append(diccionarioAux[d]) # Guardamos cada DocumentoKnn en documentsKnn
 
