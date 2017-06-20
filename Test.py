@@ -29,7 +29,7 @@ action_option = ""
 while action_option != "/exit":
     print("¿Qué acción desea realizar?")
     action_option = input("1 - Insertar nuevas palabras claves, 2 - Clasificar los documentos utilizando Naives Bayes, 3 - Clasificar "
-          "los documentos usando Knn \n")
+          "los documentos usando Knn. (Escriba /exit para salir) \n")
 
     if action_option == "1":
         AuxiliaryMethod.insert_keywords(categories)

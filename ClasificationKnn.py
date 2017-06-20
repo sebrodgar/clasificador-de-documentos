@@ -16,11 +16,12 @@ class ClasificationKnn(object):
         self.source_csv = source_csv
         self.k = k
         self.keywords = []
-        self.frequencyWords = {}
+        self.frequencyWords = {} # Diccionario de las palabras del documento a clasificar con sus frecuencias
         self.documentsKnn = []
-        self.neighbours = {}
-        self.KNeighbours = {}
+        self.neighbours = {} # Diccionario de todos los vecinos
+        self.KNeighbours = {} # Diccionario de los k vecinos más próximos
 
+    # Esta función convierte el string de pesos en un array con dichos pesos
     def stringToArray(self, string):
         res = []
         aux = string.split('-')
@@ -53,30 +54,30 @@ class ClasificationKnn(object):
             self.frequencyWords[w] += float(self.document.words.count(w.word))
 
     def getNeighbours(self, documentsKnn, k):
-        ks = []
-        aux = []
-        values = []
-        for key in self.frequencyWords.keys():
-            aux.append(float(self.frequencyWords[key]))
+        aux = [] # Array para la frecuencia de las palabras del documento a clasificar
+        values = [] # Array de proximidades
+        ks = []  # Array de proximidades de los k vecinos más próximos
+        for key in self.frequencyWords.keys(): # Recorremos las palabras que aparecen en el documento a clasificar
+            aux.append(float(self.frequencyWords[key])) # y añadimos sus frecuencias al array
 
-        for d in documentsKnn:
-            prox = float(AuxiliaryMethods.proximidad(d.weights, aux))
-            saux = d.serie + ", " + d.category
-            self.neighbours[saux] = prox
-        for neig in self.neighbours:
-            values.append(self.neighbours[neig])
-            values = sorted(values, reverse=True)
-        for i in range(1, k+1):
-            ks.append(values[i-1])
-        for n in self.neighbours:
-            for r in range(len(ks)):
+        for d in documentsKnn: # Recorremos los documentos
+            prox = float(AuxiliaryMethods.proximidad(d.weights, aux)) # Calculamos la proximidad del documento a clasificar con cada documento
+            saux = d.serie + ", " + d.category # Esta será la clave del diccionario de vecinos (Nombre de la seria, categoría)
+            self.neighbours[saux] = prox # Añadimos la proximidad
+        for neig in self.neighbours: # Para cada vecino
+            values.append(self.neighbours[neig]) # Cogemos sus proximidades...
+            values = sorted(values, reverse=True) # ...y las ordenamos de mayor a menor
+        for i in range(1, k+1): # for desde 1 hasta k
+            ks.append(values[i-1]) # Metemos la proximidad
+        for n in self.neighbours: # Este for es para obtener las series de...
+            for r in range(len(ks)): # ...las proximidades
                 if self.neighbours[n] == ks[r]:
                     if n not in self.KNeighbours:
                         self.KNeighbours[n] = 0.0
-                    self.KNeighbours[n] = ks[r]
+                    self.KNeighbours[n] = ks[r] # Añadimos las k series más próximas
 
     def calculate_category(self):
-        # En este diccionario es para establecer el numero de veces que aparece cada categoriía
+        # En este diccionario es para establecer el numero de veces que aparece cada categoría
         # entre los vecinos para quedarse con la categoria mayoritaria entre los vecinos
         categories_dicc = {}
         category_selected = ""
