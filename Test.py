@@ -4,7 +4,7 @@
 from os import listdir
 from Document import Document
 from Bayes import Bayes
-from ClassificationBayes import ClassificationBayes
+from ClasificationBayes import ClasificationBayes
 from ClasificationKnn import  ClasificationKnn
 from Bayes import Bayes
 from Knn import Knn
@@ -48,11 +48,11 @@ while action_option != "/exit":
         documents_to_clasificated = AuxiliaryMethod.get_documents_words_to_clasificated()
         if option == "R" or option == "r":
             for r in range(0, len(documents_to_clasificated) - 1):
-                bayesC = ClassificationBayes(documents_to_clasificated[r], "datos/datos_bayes.csv")
+                bayesC = ClasificationBayes(documents_to_clasificated[r], "datos/datos_bayes.csv")
                 bayesC.start()
         else:
             for r in range(0, len(documents_to_clasificated) - 1):
-                bayesC = ClassificationBayes(documents_to_clasificated[r], option)
+                bayesC = ClasificationBayes(documents_to_clasificated[r], option)
                 bayesC.start()
 
     elif action_option == "3":

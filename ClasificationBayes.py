@@ -2,7 +2,7 @@ import csv
 import math
 from KeyWord import KeyWord
 
-class ClassificationBayes(object):
+class ClasificationBayes(object):
 
     def __init__(self, document, source_csv):
         self.document = document
