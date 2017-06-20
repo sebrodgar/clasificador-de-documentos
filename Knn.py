@@ -22,9 +22,7 @@ class Knn(object):
         for c in self.categories:
             self.keywords += self.categories[c]
 
-    # Esta función calcula el número de apariciones que tiene una palabra por cada documento. Cada palabra tiene
-    # que tener una columna por cada documento que tengamos.
-    # Se usará un diccionario {palabra_clave : [listado con los diferentes valores de las columnas correspondientes]}
+    # Esta función calcula el número de apariciones que tiene una palabra por cada documento
     def calculate_frequencies(self):
          for doc in self.documents_array: # Se recorren todos los documentos
             for w in self.keywords: # Se recorren todas las palabras clave
@@ -71,18 +69,6 @@ class Knn(object):
                 diccionarioAux[kw.serie].weights.append(kw.weight) # Y metemos el peso de dicha palabra para dicha serie
         for d in diccionarioAux.keys():
             self.documentsKnn.append(diccionarioAux[d]) # Guardamos cada DocumentoKnn en documentsKnn
-
-    # Esta función calcula la proximidad entre dos vectores
-    def proximidad(self, w1, w2):
-        numerador, result = 0
-        for i in range(len(w1)):
-            numerador += w1[i]*w2[i]
-        for i in range(len(w1)):
-            denominador1 = math.sqrt(w1[i]*w1[i])
-        for i in range(len(w2)):
-            denominador2 = math.sqrt(w2[i]*w2[i])
-        result = (numerador) / (denominador1 * denominador2)
-        return result
 
     def start_algorithm(self):
         self.get_keywords_category()

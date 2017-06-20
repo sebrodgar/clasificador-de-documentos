@@ -4,6 +4,7 @@ from Document import Document
 import os as os
 import csv
 from KeyWord import KeyWord
+import math
 
 categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar", "peculiares",
                           "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
@@ -160,6 +161,24 @@ def get_category_dictionary():
 
     return dictionary_category
 
+# Esta función calcula la proximidad entre dos vectores
+def proximidad(w1, w2):
+    numerador = 0
+    denominador1 = 0
+    denominador2 = 0
+    result = 0
+    for i in range(len(w1)):
+        numerador += float(w1[i]*w2[i])
+    for i in range(len(w1)):
+        denominador1 += float(math.sqrt(w1[i]*w1[i]))
+    for i in range(len(w2)):
+        denominador2 += float(math.sqrt(w1[i]*w1[i]))
+    if denominador1 == 0.0 or denominador2 == 0.0:
+        result = 0.0
+    else:
+        result = float((numerador) / (denominador1 * denominador2))
+    return result
+
 # Obtener todas las categorias de los nombres de las carpetas para mostrarle al usuario las categorias disponibles para
 # añadir palabras claves
 def get_all_categories():
@@ -201,9 +220,6 @@ def insert_keywords(categories):
             print("Introducido CÓDIGO CATEGORÍA INCORRECTO!\n")
     save_information_csv2(keywords)
     print("Fin del programa")
-
-
-
 
 
 

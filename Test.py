@@ -7,6 +7,7 @@ from Bayes import Bayes
 from ClassificationBayes import ClassificationBayes
 from ClasificationKnn import  ClasificationKnn
 from Bayes import Bayes
+from Knn import Knn
 import AuxiliaryMethods as AuxiliaryMethod
 
 
@@ -55,7 +56,28 @@ while action_option != "/exit":
                 bayesC.start()
 
     elif action_option == "3":
-        print(3)
+        print("Comienza el programa de clasifiación de datos.\n"
+              "Elija opción para la ruta donde obtener los documentos: R (raiz del proyecto) o escriba ruta")
+        option = input()
+        if option == "R" or option == "r":
+            knn = Knn(documents, AuxiliaryMethod.get_documents_words([],[]), categories, documents_by_category, "")
+            knn.start_algorithm()
+        else:
+            kann = Knn(documents, AuxiliaryMethod.get_documents_words([],[]), categories, documents_by_category, option)
+            knn.start_algorithm()
+
+        documents_to_clasificated = AuxiliaryMethod.get_documents_words_to_clasificated()
+
+        print("Establezca un k mayor que cero")
+        k = input()
+        if option == "R" or option == "r":
+            for r in range(0, len(documents_to_clasificated) - 1):
+                KnnC = ClasificationKnn(documents_to_clasificated[r], knn.categories, "datos/datos_knn.csv", k)
+                KnnC.start()
+        else:
+            for r in range(0, len(documents_to_clasificated) - 1):
+                KnnC = ClasificationKnn(documents_to_clasificated[r], knn.categories, option, k)
+                KnnC.start()
 
 
 
