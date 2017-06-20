@@ -1,6 +1,6 @@
 import math
 from KeywordKnn import KeywordKnn
-from DocumentoKnn import DocumentoKnn
+from DocumentKnn import DocumentKnn
 import os
 
 class Knn(object):
@@ -61,7 +61,7 @@ class Knn(object):
         diccionarioAux = {} # Creamos un diccionario (Serie:DocumentoKnn)
         for kw in self.keywordsKnn: # Para cada keywordKnn
             if kw.serie not in diccionarioAux: # Si no está en el diccionario...
-                documentoKnn = DocumentoKnn(kw.serie, kw.category, [])
+                documentoKnn = DocumentKnn(kw.serie, kw.category, [])
                 diccionarioAux[kw.serie] = documentoKnn # ...la añadimos
             if kw.weight is 0:
                 diccionarioAux[kw.serie].weights.append(0.0)

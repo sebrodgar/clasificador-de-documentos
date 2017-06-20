@@ -60,24 +60,21 @@ while action_option != "/exit":
               "Elija opción para la ruta donde obtener los documentos: R (raiz del proyecto) o escriba ruta")
         option = input()
         if option == "R" or option == "r":
-            knn = Knn(documents, AuxiliaryMethod.get_documents_words([],[]), categories, documents_by_category, "")
+
+            knn = Knn(documents, categories, documents_by_category, "")
             knn.start_algorithm()
         else:
-            kann = Knn(documents, AuxiliaryMethod.get_documents_words([],[]), categories, documents_by_category, option)
+            kann = Knn(documents, categories, documents_by_category, option)
             knn.start_algorithm()
 
         documents_to_clasificated = AuxiliaryMethod.get_documents_words_to_clasificated()
 
-        print("Establezca un k mayor que cero")
-        k = input()
-        if option == "R" or option == "r":
+        k = input("Establezca un k mayor que cero: ")
+        if k.isdigit() and int(k) > 0:
             for r in range(0, len(documents_to_clasificated) - 1):
-                KnnC = ClasificationKnn(documents_to_clasificated[r], knn.categories, "datos/datos_knn.csv", k)
+                KnnC = ClasificationKnn(documents_to_clasificated[r], documents, categories, "datos/datos_knn.csv", k)
                 KnnC.start()
-        else:
-            for r in range(0, len(documents_to_clasificated) - 1):
-                KnnC = ClasificationKnn(documents_to_clasificated[r], knn.categories, option, k)
-                KnnC.start()
+
 
 
 

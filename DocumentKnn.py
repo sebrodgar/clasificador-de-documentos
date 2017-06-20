@@ -1,4 +1,4 @@
-class DocumentoKnn(object):
+class DocumentKnn(object):
 
     def __init__(self, serie, category, weights):
         self.serie = serie

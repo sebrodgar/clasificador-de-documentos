@@ -185,7 +185,7 @@ def get_all_categories():
     categories_cod = {}
     for category_dir in os.listdir("Series"):
         categories_cod[category_dir[:2].lower()] = category_dir
-        print("(" + category_dir + ") - " + category_dir[:2].lower())
+        #print("(" + category_dir + ") - " + category_dir[:2].lower())
 
     return categories_cod
 
