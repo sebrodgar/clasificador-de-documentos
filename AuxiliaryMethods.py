@@ -6,7 +6,7 @@ import csv
 from KeyWord import KeyWord
 import math
 
-categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar", "peculiares",
+'''categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", "risas", "comedia", "comedias", "humor", "peculiar", "peculiares",
                           "surrealista", "surrealistas", "extravagante", "extravagantes", "chiste", "chistes", "gracioso", "graciosa",
                           "graciosos", "graciosas", "divertido", "divertida"],
               "Misterio": ["intriga", "intrigas", "misterio", "misterioso", "misteriosa", "misteriosos", "misteriosas", "asesinato",
@@ -22,6 +22,8 @@ categories = {"Comedia": ["cómico", "cómica", "cómicos", "cómicas", "risa", 
                                   "increíble", "increíbles", "fenómeno", "fenómenos", "poder", "poderes", "sobrenatural", "sobrenaturales",
                                   "extraño", "extraña", "extraños", "extrañas", "irreal", "irreales", "extraterrestre", "extraterrestres",
                                   "sorprendente", "sorprendentes", "ciencia", "científico", "científica", "científicos", "científicas"]}
+'''
+
 #documents = []
 #documents_by_category = {} # Se usa para no tener que ir calculando cada vez todas los documentos de una categoria
 

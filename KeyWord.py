@@ -1,11 +1,4 @@
 class KeyWord(object):
-    '''def __init__(self, word, category, appearances, pc):
-        self.word = word
-        self.category = category
-        self.appearances = appearances
-        self.ptc = -1.0
-        self.pc = pc
-'''
 
     # Permitimos que el constructor se pueda crear con solo los parametros category y word, para ello dejamos los demás
     # parametros por defecto a -1 para saber que es un valor que no pueden tener calculados.
