@@ -102,13 +102,19 @@ knn = Knn(documents, categories, documents_by_category, "")
 knn.start_algorithm()
 
 documents_to_clasificated = AuxiliaryMethods.get_documents_words_to_clasificated()
-clasKNN = ClasificationKnn(documents_to_clasificated[0], get_documents_words(), categories, "./datos/datos_knn.csv", 1)
-clasKNN.start()
 
-genres = []
-for kn in clasKNN.KNeighbours:
-    s = kn.split(',')
-    genres.append(s[1])
+for doc in documents_to_clasificated:
+    clasKNN = ClasificationKnn(doc, get_documents_words(), categories, "./datos/datos_knn.csv", 1)
+    clasKNN.start()
 
-print("Esta serie pertenece al género" + genres[0])
+    for kn in clasKNN.KNeighbours:
+        #print(kn)
+        s = kn.split(',')
+        #genres.append(s[1])
+        print("La serie " + s[0].upper() +" pertenece a la categoría " + s[1].upper())
+
+#3genres = []
+
+
+#print("Esta serie pertenece al género" + genres[0])
 print("Programa Terminado")
