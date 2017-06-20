@@ -1,6 +1,7 @@
 import csv
 import math
 from contextlib import redirect_stderr
+import operator
 
 from DocumentoKnn import DocumentoKnn
 from KeywordKnn import KeywordKnn
@@ -69,12 +70,12 @@ class ClasificationKnn(object):
         for n in self.neighbours:
             for r in range(len(ks)):
                 if self.neighbours[n] == ks[r]:
-                    if n not in self.KNeighbours:
-                        self.KNeighbours[n] = 0.0
-                    self.KNeighbours[n] = ks[r]
+                    self.KNeighbours[ks[r]] = n
+        self.KNeighbours = sorted(self.KNeighbours.items(), key=operator.itemgetter(0), reverse=True)
 
     def start(self):
         self.get_data_csv()
         self.get_keywords_category()
         self.calculate_frequencies()
         self.getNeighbours(self.documentsKnn, 4)
+        print(self.KNeighbours)

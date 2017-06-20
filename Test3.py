@@ -109,7 +109,7 @@ for doc in documents_to_clasificated:
 
     for kn in clasKNN.KNeighbours:
         #print(kn)
-        s = kn.split(',')
+        s = clasKNN.KNeighbours[kn].split(',')
         #genres.append(s[1])
         print("La serie " + s[0].upper() +" pertenece a la categoría " + s[1].upper())
 
